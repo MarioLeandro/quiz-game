@@ -1,10 +1,12 @@
 import React from 'react';
+//types
+import {AnswerObject} from '../App';
 
 interface QuestionCardProps {
     question: string;
     answers: string[];
-    callback: any;
-    userAnswer: any;
+    callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    userAnswer: AnswerObject | undefined;
     questionNumber: number;
     totalQuestions: number;
 }   
@@ -13,18 +15,17 @@ export function QuestionCard ({question, answers, callback, userAnswer, question
     return (
         <div>
             <p className="number">
-                Question: {question}/{totalQuestions}
+                Question: {questionNumber}/{totalQuestions}
             </p>
             <p dangerouslySetInnerHTML={{__html: question}}/>
             <div>
-                {
-                    answers.map(function (answer) {
-                        <div>
-                            <button disabled={userAnswer} onClick={callback}>
-                                <span dangerouslySetInnerHTML={{__html: answer}}/>
-                            </button>
-                        </div>
-                    })
+                {answers.map((answer) => (
+                   <div key={answer}>
+                       <button disabled={userAnswer ? true : false} value={answer} onClick={callback}>
+                        <span dangerouslySetInnerHTML={{__html: answer}}></span>
+                       </button>
+                   </div> 
+                ))
                 }
             </div>
         </div>
